@@ -80,4 +80,4 @@ Também é comum adicionar um arquivo de exemplo (`.env.example` ou `.env.sample
 
 ---
 
-Com essa documentação, qualquer pessoa que clonar o repositório saberá como configurar o ambiente localmente e entenderá o motivo de não incluir o `.env` no controle de versão.
+Com essa documentação, qualquer pessoa que clonar o repositório saberá como configurar o ambiente localmente e entenderá o motivo de não incluir o `.env` no controle de versão. 
