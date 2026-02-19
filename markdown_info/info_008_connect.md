@@ -64,5 +64,28 @@ const connectToDatabase = require('./src/database/connect');
 })();
 ```
 
+### Problemas comuns
+
+Ao conectar com o MongoDB Atlas você pode encontrar erros como o seguinte:
+
+```
+MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted.
+```
+
+Isso acontece porque o Atlas, por padrão, **bloqueia conexões de IPs não autorizados**.
+Para resolver:
+
+1. Acesse https://cloud.mongodb.com/ e navegue até seu cluster.
+2. Vá em **Network Access** na barra lateral.
+3. Clique em **Add IP Address** e insira o IP da máquina onde o código está
+   rodando (no caso de um dev container, use `0.0.0.0/0` para permitir todos os
+   endereços temporariamente ou o IP público da sua rede).
+4. Salve e aguarde alguns minutos até que a mudança seja propagada.
+
+> 💡 Em ambientes de produção, use regras de firewall mais restritas e evite
+> `0.0.0.0/0` a menos que seja estritamente necessário.
+
+Com isso, a conexão deve se estabelecer sem o erro acima.
+
 Com essa documentação, qualquer colaborador entenderá onde a lógica de
 conexão fica e como ela é organizada dentro da pasta `src/database`.
