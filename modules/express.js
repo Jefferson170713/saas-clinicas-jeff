@@ -25,7 +25,7 @@ app.get('/home', (req, res) => {
 // });
 app.get('/users', async (req, res) => {
     try {
-        const users = await UserModel.find().select('-__v');
+        const users = await UserModel.find();
         res.status(200).json(users);
         console.log('Usuários buscados com sucesso:', users);
     } catch (error) {
@@ -49,6 +49,23 @@ app.post('/users', async (req, res) => {
             error: 'Erro ao criar usuário',
             details: error.message  // ← ENVIE O ERRO REAL
         });
+    }
+});
+// Deletndo um usuário pelo ID
+app.delete('/users/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const deletedUser = await UserModel.findByIdAndDelete(userId);
+        
+        if (!deletedUser) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+        
+        res.status(200).json({ message: 'Usuário deletado com sucesso', user: deletedUser });
+        console.log('Usuário deletado com sucesso:', deletedUser);
+    }catch (error) {
+        console.error('Erro ao deletar o usuário:', error.message);
+        return res.status(500).json({error: 'Erro ao deletar o usuário', details: error.message});
     }
 });
 
