@@ -87,6 +87,25 @@ app.delete('/users/:id', async (req, res) => {
         return res.status(500).json({error: 'Erro ao deletar o usuário', details: error.message});
     }
 });
+// modificando um usuário pelo ID
+app.patch('/users/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const updatedData = req.body;
+        
+        const updatedUser = await UserModel.findByIdAndUpdate(userId, updatedData, { new: true });
+        
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'Usuário não encontrado' });
+        }
+        
+        res.status(200).json({ message: 'Usuário atualizado com sucesso', user: updatedUser });
+        console.log('Usuário atualizado com sucesso:', updatedUser);
+    } catch (error) {
+        console.error('Erro ao atualizar o usuário:', error.message);
+        return res.status(500).json({ error: 'Erro ao atualizar o usuário', details: error.message });
+    }
+});
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta: ${port}`);
