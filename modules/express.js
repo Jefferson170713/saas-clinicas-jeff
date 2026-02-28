@@ -55,17 +55,21 @@ app.post('/users', async (req, res) => {
 app.get('/users/:id', async (req, res) => {
     try {
         const userId = req.params.id;
-        const user = await UserModel.fyndById(userId);
-
+        const user = await UserModel.findById(userId);
+        
         if (!user) {
             return res.status(404).json({ error: 'Usuário não encontrado' });
         }
-        return res.status(200).json(user);
+        
+        res.status(200).json({ message: 'Usuário encontrado com sucesso', user: user });
+        console.log('Usuário encontrado com sucesso:', user);
+
     } catch (error) {
         console.error('Erro ao buscar o usuário:', error.message);
         return res.status(500).json({ error: 'Erro ao buscar o usuário', details: error.message });
     }
 });
+
 // Deletndo um usuário pelo ID
 app.delete('/users/:id', async (req, res) => {
     try {
